@@ -752,25 +752,6 @@ Resources:
       GroupDescription: 'S3 VirusScan'
       VpcId:
         'Fn::ImportValue': !Sub '${ParentVPCStack}-VPC'
-  ScanSecurityGroupInSSHBastion:
-    Type: 'AWS::EC2::SecurityGroupIngress'
-    Condition: HasSSHBastionSecurityGroup
-    Properties:
-      GroupId: !Ref ScanSecurityGroup
-      IpProtocol: tcp
-      FromPort: 22
-      ToPort: 22
-      SourceSecurityGroupId:
-        'Fn::ImportValue': !Sub '${ParentSSHBastionStack}-SecurityGroup'
-  ScanSecurityGroupInAll:
-    Type: 'AWS::EC2::SecurityGroupIngress'
-    Condition: HasNotSSHBastionSecurityGroup
-    Properties:
-      GroupId: !Ref ScanSecurityGroup
-      IpProtocol: tcp
-      FromPort: 22
-      ToPort: 22
-      CidrIp: '0.0.0.0/0'
 Outputs:
   ScanQueueArn:
     Description: 'The ARN of the Scan Queue.'
